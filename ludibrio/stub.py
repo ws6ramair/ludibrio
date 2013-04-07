@@ -55,14 +55,17 @@ class Stub(_TestDouble):
         self.__expectation__.append(expectation)
 
     def __rshift__(self, response):
-            self.__expectation__[-1][3] = response
+        self.__expectation__[-1][3] = response
     __lshift__ = __rshift__
 
     def _expectation_value(self, attr, args=[], kargs={}):
         for position, (attr_expectation, args_expectation, kargs_expectation, response) in enumerate(self.__expectation__):
             if (attr_expectation, args_expectation, kargs_expectation) == (attr, args, kargs):
                 self._to_the_end(position)
-                return response
+                if isinstance(response, Exception):
+                    raise response 
+                else:
+                    return response
         if self._has_proxy():
             return self._proxy(attr, args, kargs)
         self._attribute_expectation(attr, args, kargs)

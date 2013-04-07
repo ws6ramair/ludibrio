@@ -51,7 +51,6 @@ Stubs are test doubles programmed to provide inputs to and outputs from collabor
     >>> greetings
     Greetings
 
-
 4. Should support both method and property configuration:
     >>> with greetings as greetings:
     ...     greetings.excuse_me() >> 'Com licença'
@@ -78,4 +77,12 @@ Stubs are test doubles programmed to provide inputs to and outputs from collabor
     Ola, Gustavo e Diego
     >>> print greetings.hello('Gustavo')
     Ola, Gustavo
+
+5. Stubs should be able to raise exceptions 
+    >>> with Stub() as stubException:
+    ...     stubException.hello() >> KeyError('KEY ERROR')
+    >>> stubException.hello()
+    Traceback (most recent call last):
+    ...
+    KeyError: 'KEY ERROR'
 
